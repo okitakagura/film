@@ -1,0 +1,260 @@
+<!-- @name：index.html -->
+<!-- @author：Huilin Lai -->
+<!-- @update：2019/04/26 -->
+<!-- @description：the home page of movie list -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie List</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="stylesheets/index.css" type="text/css" rel="stylesheet" />
+  <script type='text/javascript' src='json/films_all.json'></script>
+  <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+  <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+  <script src="javascripts/films.js" type="text/javascript"></script>
+</head>
+<body>
+<header> <!-- the header of page -->
+
+  <div class="top-bar"> <!-- Navigation bar at the top of the page -->
+    <div class="top-bar-left">
+      <ul class="menu">
+        <li><a href="javascript:initialPage()">Home</a></li>
+        <li><a href="#">Sign in</a></li>
+        <li><a href="#">Share</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </div>
+    <div class="top-bar-right">
+      <ul class="menu">
+        <li><input id="searchfilm" type="search" placeholder="Search"></li>
+        <li><button type="button" class="button" onclick="search()">Search</button></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="medium-4 columns">
+      <img src="image/logo3.png" alt="logo">
+    </div>
+    <div class="medium-8 columns">
+      <img src="image/logo4.png" alt="picture1">
+    </div>
+  </div>
+
+  <br>
+  <div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="medium">
+    <button class="menu-icon" type="button" data-toggle></button>
+    <div class="title-bar-title">Menu</div>
+  </div>
+  <div class="top-bar" id="main-menu">
+    <!-- Specific navigation information -->
+    <ul class="menu vertical medium-horizontal expanded medium-text-center" data-responsive-menu="drilldown medium-dropdown">
+      <li class="has-submenu"><a href="#">Movies</a>
+        <ul class="submenu menu vertical" data-submenu>
+          <li><a href="#">In Theaters</a></li>
+          <li><a href="#">Showtimes & Tickets</a></li>
+          <li><a href="#">Coming Soon</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu"><a href="#">TV</a>
+        <ul class="submenu menu vertical" data-submenu>
+          <li><a href="#">Popular TV Shows</a></li>
+          <li><a href="#">DVD & Blu-Ray</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu"><a href="#">Celebs</a>
+        <ul class="submenu menu vertical" data-submenu>
+          <li><a href="#">Born Today</a></li>
+          <li><a href="#">Most Popular Celebs</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu"><a href="#">Events</a>
+        <ul class="submenu menu vertical" data-submenu>
+          <li><a href="#">Awards Central</a></li>
+          <li><a href="#">Festival Central</a></li>
+          <li><a href="#">Oscars</a></li>
+          <li><a href="#">Golden Globes</a></li>
+          <li><a href="#">Sundance</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu"><a href="#">News</a>
+        <ul class="submenu menu vertical" data-submenu>
+          <li><a href="#">Top News</a></li>
+          <li><a href="#">Movie News</a></li>
+          <li><a href="#">TV News</a></li>
+          <li><a href="#">Celebrity News</a></li>
+        </ul>
+      </li>
+      <li class="has-submenu"><a href="#">Watchlist</a>
+        <ul class="submenu menu vertical" data-submenu>
+          <li><a href="#">One</a></li>
+          <li><a href="#">Two</a></li>
+          <li><a href="#">Three</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</header> <!-- end of header -->
+<br>
+
+<div class="row column">
+  <h3 style="margin: 0;" class="text-center">MOVIE LIST</h3>
+</div>
+<hr>
+<div class="row">
+  <div class="large-8 columns" style="border-right: 1px solid #E3E5E8;">
+    <article> <!-- the article of page -->
+      <div id="jsonTip"> <!-- show the list of movies -->
+      </div>
+      <!--Implement paging -->
+      <ul class="pagination" role="navigation" aria-label="Pagination">
+        <li>
+          <p style="float:right;">每页20条记录  总共<span id="mlen"></span>条记录   总页数：<span id="totalpage"></span>
+          <p>当前是第 <span id="currPage"></span> 页</p>
+        </li>
+        <li><a id="one" href="javascript:page(0);" aria-label="Page 1">首 页</a></li>
+        <li><a id="previous" > 上一页</a></li>
+        <li><a id="next" > 下一页</a></li>
+
+        <li id="last" class='p-next'>
+          <a href="javascript:page(500);">尾 页</a>
+        </li>
+        <li><input id="pageNumber"  placeholder="转到页码"></li>
+        <li><button type="button" class="button" onclick="reachPage()">跳 转</button></li>
+      </ul>
+    </article> <!-- end of article -->
+  </div>
+
+  <div class="large-4 columns">
+    <aside> <!--the right side of page -->
+      <div class="row column">
+        <p class="lead">You Have Seen</p>
+        <h5><em>0</em>/200 (0%) </h5>
+      </div>
+      <hr>
+      <div class="row small-up-3 column"> <!--show the genres of movies -->
+        <p class="lead">Movie Genres</p>
+        <div class="column text-center">
+          <i class="fi-social-facebook"></i>
+          <a href="javascript:movieGenre('动作');" ><h6>Action</h6></a>
+          <a href="javascript:movieGenre('冒险');" ><h6>Adventure</h6></a>
+          <br>
+        </div>
+        <div class="column text-center">
+          <i class="fi-social-twitter"></i>
+          <a href="javascript:movieGenre('喜剧');" ><h6>Comedy</h6></a>
+          <a href="javascript:movieGenre('犯罪');" ><h6>Crime</h6></a>
+          <br>
+        </div>
+        <div class="column text-center">
+          <i class="fi-social-instagram"></i>
+          <a href="javascript:movieGenre('历史');" ><h6>History</h6></a>
+          <a href="javascript:movieGenre('恐怖');" ><h6>Horror</h6></a>
+          <br>
+        </div>
+        <div class="column text-center">
+          <i class="fi-social-tumblr"></i>
+          <a href="javascript:movieGenre('音乐');" ><h6>Musical</h6></a>
+          <a href="javascript:movieGenre('爱情');" ><h6>Love</h6></a>
+        </div>
+        <div class="column text-center">
+          <i class="fi-social-pinterest"></i>
+          <a href="javascript:movieGenre('家庭');" ><h6>Family</h6></a>
+          <a href="javascript:movieGenre('动画');" ><h6>Animation</h6></a>
+        </div>
+        <div class="column text-center">
+          <i class="fi-social-youtube"></i>
+          <a href="javascript:movieGenre('战争');" ><h6>War</h6></a>
+          <h6>......</h6>
+        </div>
+      </div>
+      <br>
+      <div class="row column">
+        <p><img src="image/aside.png" alt="advertisement of ShamWow"></p>
+      </div>
+      <hr>
+      <div class="row column">
+        <p class="lead">Movie Recommendation</p>
+        <div class="media-object">
+          <div class="media-object-section">
+            <a href="https://movie.douban.com/subject/3878007/" target="_blank"><img class="thumbnail" src="image/film1.jpg" height="100" width="100"></a>
+          </div>
+          <div class="media-object-section">
+            <h5>海王 Aquaman</h5>
+          </div>
+        </div>
+        <div class="media-object">
+          <div class="media-object-section">
+            <a href="https://movie.douban.com/subject/25986662/" target="_blank"><img class="thumbnail" src="image/film2.jpg" height="100" width="100"></a>
+          </div>
+          <div class="media-object-section">
+            <h5>疯狂的外星人</h5>
+          </div>
+        </div>
+        <div class="media-object">
+          <div class="media-object-section">
+            <a href="https://movie.douban.com/subject/20438964/" target="_blank"><img class="thumbnail" src="image/film3.jpg" height="100" width="100"></a>
+          </div>
+          <div class="media-object-section">
+            <h5>无敌破坏王2：大闹互联网 Ralph Breaks the Internet</h5>
+          </div>
+        </div>
+        <div class="media-object">
+          <div class="media-object-section">
+            <a href="https://movie.douban.com/subject/30170448/" target="_blank"><img class="thumbnail" src="image/film4.jpg" height="100" width="100"></a>
+          </div>
+          <div class="media-object-section">
+            <h5>何以为家</h5>
+          </div>
+        </div>
+      </div>
+    </aside> <!-- end of aside -->
+  </div>
+</div>
+
+<footer class="marketing-site-footer"> <!-- the footer of page -->
+  <div class="row medium-unstack">
+    <div class="medium-4 columns">
+      <h4 class="marketing-site-footer-name">Our Films</h4>
+      <p>The site provides a wealth of movie information, including authoritative ratings,
+        so users can search for what they want, as well as real-time movie recommendations.</p>
+    </div>
+    <div class="medium-4 columns">
+      <h4 class="marketing-site-footer-title">Contact Info</h4>
+      <div class="marketing-site-footer-block">
+        <i class="fa fa-map-marker" aria-hidden="true"></i>
+        <p>100 W Rincon<br>San Francisco, CA 94015</p>
+      </div>
+      <div class="marketing-site-footer-block">
+        <i class="fa fa-phone" aria-hidden="true"></i>
+        <p>1 (800) 555-5555</p>
+      </div>
+      <div class="marketing-site-footer-block">
+        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+        <p>ourfilms@foxmail.com</p>
+      </div>
+    </div>
+    <div class="medium-4 columns">
+      <h4 class="marketing-site-footer-title">Sign up for our newsletter</h4>
+      <div class="newsletter">
+        <div class="input-group">
+          <input class="input-group-field" type="email" placeholder="Email address">
+          <div class="input-group-button">
+            <input type="submit" class="button" value="Submit">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer> <!--end of footer -->
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script>
+  $(document).foundation();
+</script>
+</body>
+</html>
